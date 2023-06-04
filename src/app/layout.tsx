@@ -1,4 +1,6 @@
+import Footer from "@/components/footer";
 import { Providers } from "./providers";
+import Navbar from "@/components/navbar";
 
 export const metadata = {
   title: 'Fake Reddit App',
@@ -14,7 +16,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          {children}
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
