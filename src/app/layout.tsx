@@ -2,7 +2,7 @@
 
 import Footer from "@/components/footer";
 import { Providers } from "./providers";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata = {
   title: 'Fake Reddit App',
