@@ -2,6 +2,7 @@ import '@fontsource/open-sans/300.css'
 import '@fontsource/open-sans/400.css'
 import '@fontsource/open-sans/700.css'
 import { extendTheme } from '@chakra-ui/react'
+import { Button } from './button'
 
 // example theme
 export const theme = extendTheme({
@@ -21,7 +22,7 @@ export const theme = extendTheme({
     })
   },
   components: {
-    // Button: {
+    Button,
   },
   fontSizes: {
     xs: "0.75rem",
