@@ -5,7 +5,7 @@ type Props = {};
 
 export default function SearchInput({}: Props) {
   return (
-    <Flex flexGrow={1} mr={2} align="center">
+    <Flex flexGrow={1} mr={2} align="center" className="search">
       <InputGroup>
         <InputLeftElement pointerEvents="none">
           <SearchIcon color="gray.400" mb={1} />

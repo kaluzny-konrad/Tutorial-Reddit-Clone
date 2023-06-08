@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { authModalState, ModalView } from "@/atoms/authModalAtom";
+import { authModalState } from "@/atoms/authModalAtom";
 import { useSetRecoilState } from "recoil";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
@@ -9,10 +9,10 @@ import { Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { BsDot, BsReddit } from "react-icons/bs";
 
 type Props = {
-  toggleView: (view: ModalView) => void;
+
 };
 
-const ResetPassword = ({ toggleView }: Props) => {
+const ResetPassword = (proops: Props) => {
   const setAuthModalState = useSetRecoilState(authModalState);
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState(false);
