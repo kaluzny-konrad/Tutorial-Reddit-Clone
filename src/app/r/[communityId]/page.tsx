@@ -1,4 +1,8 @@
+'use client'
+
 import { Community } from "@/atoms/communityAtom";
+import Header from "@/components/Community/Header";
+import NotFound from "@/components/Community/NotFound";
 import { firestore } from "@/firebase/clientApp";
 import {
   DocumentData,
@@ -10,15 +14,18 @@ import React from "react";
 
 export default async function CommunityPage({ params }: any) {
   const communityData = await getCommunityData(params.communityId);
-  console.log("communityData", communityData);
-  if (!communityData) return <div>Community not found</div>;
+  if (!communityData) return <NotFound />;
 
-  return <div>{communityData?.id}</div>;
+  return (
+    <>
+      <Header communityData={communityData} />
+    </>
+  );
 }
 
 export async function getCommunityData(
   slug: string
-): Promise<Community | undefined> {
+): Promise<Community | null> {
   try {
     const communityId = slug;
     const communityDocRef = doc(firestore, "communities", communityId);
@@ -26,7 +33,7 @@ export async function getCommunityData(
       communityDocRef
     );
 
-    if (!communityDoc.exists()) return undefined;
+    if (!communityDoc.exists()) return null;
 
     const communityData: Community = JSON.parse(
       JSON.stringify({
@@ -39,4 +46,6 @@ export async function getCommunityData(
   } catch (error) {
     console.log("getCommunityData", error);
   }
+
+  return null;
 }
