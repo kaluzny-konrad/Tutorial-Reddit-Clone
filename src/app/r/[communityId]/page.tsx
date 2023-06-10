@@ -1,11 +1,18 @@
 import { Community } from "@/atoms/communityAtom";
 import { firestore } from "@/firebase/clientApp";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  DocumentData,
+  DocumentSnapshot,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import React from "react";
-import safeJsonStringify from "safe-json-stringify";
 
 export default async function CommunityPage({ params }: any) {
   const communityData = await getCommunityData(params.communityId);
+  console.log("communityData", communityData);
+  if (!communityData) return <div>Community not found</div>;
+
   return <div>{communityData?.id}</div>;
 }
 
@@ -15,10 +22,14 @@ export async function getCommunityData(
   try {
     const communityId = slug;
     const communityDocRef = doc(firestore, "communities", communityId);
-    const communityDoc = await getDoc(communityDocRef);
+    const communityDoc: DocumentSnapshot<DocumentData> = await getDoc(
+      communityDocRef
+    );
+
+    if (!communityDoc.exists()) return undefined;
 
     const communityData: Community = JSON.parse(
-      safeJsonStringify({
+      JSON.stringify({
         id: communityDoc.id,
         ...communityDoc.data(),
       })
