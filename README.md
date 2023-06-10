@@ -1,7 +1,7 @@
 # Application for learning purpose
 Tutorial URL: https://www.youtube.com/watch?v=rCm5RVYKWVg
 
-Fake reddit app
+Reddit Clone App
 04.06: 0:36
 05.06: 1:01
 06.06: 2:03
