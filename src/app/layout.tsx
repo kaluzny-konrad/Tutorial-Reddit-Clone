@@ -3,8 +3,9 @@
 import Footer from "@/components/footer";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar/Navbar";
+import { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Fake Reddit App',
   description: 'Fake reddit App',
 }
