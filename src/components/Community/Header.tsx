@@ -10,12 +10,10 @@ type Props = {
 };
 
 export default function Header({ community }: Props) {
-  const { communityStateValue, onJoinLeaveCommunity } = useCommunityData();
-  // const isJoined = !!communityStateValue?.mySnippets?.find(
-  //   (item) => item.communityId === community.id
-  // );
-
-  const [isJoined, setIsJoined] = useState(false);
+  const { communityStateValue, onJoinLeaveCommunity, loading } = useCommunityData();
+  const isJoined = !!communityStateValue.mySnippets.find(
+    (item) => item.communityId === community.id
+  );
 
   return (
     <Flex direction="column" width="100%" height="146px">
@@ -49,7 +47,8 @@ export default function Header({ community }: Props) {
               variant={isJoined ? "outline" : "solid"}
               height="30px"
               px={6}
-              onClick={() => setIsJoined(!isJoined)}
+              onClick={() => onJoinLeaveCommunity(community, isJoined)}
+              isLoading={loading}
             >
               {isJoined ? "Joined" : "Join"}
             </Button>

@@ -81,7 +81,6 @@ const UserMenu = () => {
               }}
             >
               <Flex align="center">
-                {/* <Icon as={CgProfile} fontSize={20} mr={2} /> */}
                 <Text>Profile</Text>
               </Flex>
             </MenuItem>
@@ -98,7 +97,6 @@ const UserMenu = () => {
               onClick={() => signOut(auth)}
             >
               <Flex align="center">
-                {/* <Icon as={MdOutlineLogin} fontSize={20} mr={2} /> */}
                 <Text>Log Out</Text>
               </Flex>
             </MenuItem>
@@ -115,7 +113,6 @@ const UserMenu = () => {
               onClick={() => setAuthModalState({ open: true, view: "login" })}
             >
               <Flex align="center">
-                {/* <Icon as={MdOutlineLogin} fontSize={20} mr={2} /> */}
                 <Text>Log In or Sing Up</Text>
               </Flex>
             </MenuItem>
