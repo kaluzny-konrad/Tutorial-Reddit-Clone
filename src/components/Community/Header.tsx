@@ -2,7 +2,7 @@
 
 import { Community } from "@/atoms/communityAtom";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { FaReddit } from "react-icons/fa";
 import { Image } from "@chakra-ui/react";
 import useCommunityData from "@/hooks/useCommunityData";
@@ -17,9 +17,11 @@ export default function Header({ community }: Props) {
   //   (item) => item.communityId === community.id
   // );
 
+  const [isJoined, setIsJoined] = useState(false);
+
   return (
     <Flex direction="column" width="100%" height="146px">
-      {/* <Box height="50%" bg="blue.400" />
+      <Box height="50%" bg="blue.400" />
       <Flex justify="center" bg="white" flexGrow={1}>
         <Flex width="95%" maxWidth="860px">
           {community?.imageUrl ? (
@@ -49,13 +51,13 @@ export default function Header({ community }: Props) {
               variant={isJoined ? "outline" : "solid"}
               height="30px"
               px={6}
-              onClick={() => onJoinOrLeaveCommunity(community, isJoined)}
+              onClick={() => setIsJoined(!isJoined)}
             >
               {isJoined ? "Joined" : "Join"}
             </Button>
           </Flex>
         </Flex>
-      </Flex> */}
+      </Flex>
     </Flex>
   );
 }

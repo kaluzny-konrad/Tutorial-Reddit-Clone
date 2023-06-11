@@ -1,6 +1,7 @@
 import Header from "@/components/Community/Header";
 import NotFound from "@/components/Community/NotFound";
 import getCommunityData from "@/components/Community/getCommunityData";
+import PageContent from "@/components/Layout/PageContent";
 
 type Params = {
   params: {
@@ -18,6 +19,10 @@ export default async function CommunityPage({
   return (
     <>
       <Header community={community} />
+      <PageContent>
+        <>testleft</>
+        <>testright</>
+      </PageContent>
     </>
   );
 }
