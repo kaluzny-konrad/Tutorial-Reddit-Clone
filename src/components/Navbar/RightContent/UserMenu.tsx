@@ -17,7 +17,7 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import { User, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { auth } from "@/firebase/clientApp";
 import { useSetRecoilState } from "recoil";
@@ -65,7 +65,7 @@ const UserMenu = () => {
             ) : (
               <Icon as={VscAccount} fontSize={24} color="gray.400" mr={1} />
             )}
-          </Flex>{" "}
+          </Flex>
           <ChevronDownIcon />
         </Flex>
       </MenuButton>
@@ -81,7 +81,8 @@ const UserMenu = () => {
               }}
             >
               <Flex align="center">
-                <Icon as={CgProfile} fontSize={20} mr={2} /> Profile
+                {/* <Icon as={CgProfile} fontSize={20} mr={2} /> */}
+                <Text>Profile</Text>
               </Flex>
             </MenuItem>
 
@@ -97,7 +98,8 @@ const UserMenu = () => {
               onClick={() => signOut(auth)}
             >
               <Flex align="center">
-                <Icon as={MdOutlineLogin} fontSize={20} mr={2} /> Log Out
+                {/* <Icon as={MdOutlineLogin} fontSize={20} mr={2} /> */}
+                <Text>Log Out</Text>
               </Flex>
             </MenuItem>
           </>
@@ -113,8 +115,8 @@ const UserMenu = () => {
               onClick={() => setAuthModalState({ open: true, view: "login" })}
             >
               <Flex align="center">
-                <Icon as={MdOutlineLogin} fontSize={20} mr={2} /> Log In / Sing
-                Up
+                {/* <Icon as={MdOutlineLogin} fontSize={20} mr={2} /> */}
+                <Text>Log In or Sing Up</Text>
               </Flex>
             </MenuItem>
           </>
