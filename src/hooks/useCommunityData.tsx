@@ -25,7 +25,7 @@ const useCommunityData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const setAuthModalState = useSetRecoilState(authModalState);
-  const [user] = useAuthState(auth);
+  // const [user] = useAuthState(auth);
 
   // useEffect(() => {
   //   if (!user || !!communityStateValue.mySnippets.length) return;

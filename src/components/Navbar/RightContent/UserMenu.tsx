@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import { FaRedditSquare } from "react-icons/fa";
 import { VscAccount } from "react-icons/vsc";
@@ -20,12 +22,10 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { auth } from "@/firebase/clientApp";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-type Props = {
-  user?: User | null;
-};
-
-const UserMenu = ({ user }: Props) => {
+const UserMenu = () => {
+  const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
 
   return (

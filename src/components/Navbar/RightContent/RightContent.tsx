@@ -5,18 +5,17 @@ import { auth } from "@/firebase/clientApp";
 import { User, signOut } from "firebase/auth";
 import Icons from "./Icons";
 import UserMenu from "./UserMenu";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-type Props = {
-  user?: User | null;
-};
 
-export default function RightContent({ user }: Props) {
+export default function RightContent() {
+  const [user] = useAuthState(auth);
   return (
     <>
       <AuthModal />
       <Flex justify="center" align="center" className="rightContent">
         {user ? <Icons /> : <AuthButtons />}
-        <UserMenu user={user}/>
+        {user ? <UserMenu/> : <></>}
       </Flex>
     </>
   );

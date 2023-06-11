@@ -1,5 +1,3 @@
-'use client'
-
 import { Flex, Image } from "@chakra-ui/react";
 import React from "react";
 import SearchInput from "./SearchInput";
@@ -34,8 +32,8 @@ const Navbar = () => {
           />
         </Flex>
         {user && <Directory />}
-        <SearchInput user={user} />
-        <RightContent user={user} />
+        <SearchInput />
+        <RightContent />
       </Flex>
     </nav>
   );

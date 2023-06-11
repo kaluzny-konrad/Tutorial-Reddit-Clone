@@ -1,5 +1,3 @@
-"use client";
-
 import { Community } from "@/atoms/communityAtom";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React, { useState } from "react";

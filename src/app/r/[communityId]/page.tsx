@@ -16,7 +16,7 @@ type Params = {
 export default async function CommunityPage({
   params: { communityId },
 }: Params) {
-  const [user] = useAuthState(auth);
+  // const [user] = useAuthState(auth);
   const communityData = getCommunityData(communityId);
   const community = await communityData;
   if (!community) return <NotFound />;

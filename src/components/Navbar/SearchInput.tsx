@@ -1,12 +1,12 @@
+import { auth } from "@/firebase/clientApp";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Flex, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { User } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-type Props = {
-  user?: User | null;
-};
+export default function SearchInput() {
+  const [user] = useAuthState(auth);
 
-export default function SearchInput({ user }: Props) {
   return (
     <Flex flexGrow={1} mr={2} align="center" maxWidth={user ? "auto" : "600px"} className="search">
       <InputGroup>
