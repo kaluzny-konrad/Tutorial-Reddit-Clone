@@ -12,11 +12,7 @@ type Props = {
 };
 
 export default function Header({ community }: Props) {
-  // try {
-  //   const { onJoinLeaveCommunity } = useCommunityData();
-  // } catch (error: any) {
-  //   console.log("Header", error);
-  // }
+  const { communityStateValue, onJoinLeaveCommunity } = useCommunityData();
   // const isJoined = !!communityStateValue?.mySnippets?.find(
   //   (item) => item.communityId === community.id
   // );
