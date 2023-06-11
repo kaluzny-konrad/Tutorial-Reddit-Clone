@@ -1,51 +1,22 @@
-'use client'
+import getCommunityData from "@/components/Community/getCommunityData";
+import { Suspense } from "react";
 
-import { Community } from "@/atoms/communityAtom";
-import Header from "@/components/Community/Header";
-import NotFound from "@/components/Community/NotFound";
-import { firestore } from "@/firebase/clientApp";
-import {
-  DocumentData,
-  DocumentSnapshot,
-  doc,
-  getDoc,
-} from "firebase/firestore";
-import React from "react";
+type Params = {
+  params: {
+    communityId: string;
+  };
+};
 
-export default async function CommunityPage({ params }: any) {
-  const communityData = await getCommunityData(params.communityId);
-  if (!communityData) return <NotFound />;
+export default async function CommunityPage({
+  params: { communityId },
+}: Params) {
+  const communityData = getCommunityData(communityId);
 
   return (
     <>
-      <Header communityData={communityData} />
+      <Suspense fallback={<div>Loading...</div>}>
+        {(await communityData) ? <>test1</> : <>test2</>}
+      </Suspense>
     </>
   );
-}
-
-export async function getCommunityData(
-  slug: string
-): Promise<Community | null> {
-  try {
-    const communityId = slug;
-    const communityDocRef = doc(firestore, "communities", communityId);
-    const communityDoc: DocumentSnapshot<DocumentData> = await getDoc(
-      communityDocRef
-    );
-
-    if (!communityDoc.exists()) return null;
-
-    const communityData: Community = JSON.parse(
-      JSON.stringify({
-        id: communityDoc.id,
-        ...communityDoc.data(),
-      })
-    );
-
-    return communityData;
-  } catch (error) {
-    console.log("getCommunityData", error);
-  }
-
-  return null;
 }
