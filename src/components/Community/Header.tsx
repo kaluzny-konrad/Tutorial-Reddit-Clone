@@ -1,3 +1,5 @@
+"use client";
+
 import { Community } from "@/atoms/communityAtom";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
@@ -6,21 +8,21 @@ import { Image } from "@chakra-ui/react";
 import useCommunityData from "@/hooks/useCommunityData";
 
 type Props = {
-  communityData: Community;
+  community: Community;
 };
 
-export default function Header({ communityData }: Props) {
-  const { communityStateValue, onJoinOrLeaveCommunity } = useCommunityData();
-  const isJoined = !!communityStateValue?.mySnippets?.find(
-    (item) => item.communityId === communityData.id
-  );
+export default function Header({ community }: Props) {
+  // const { communityStateValue, onJoinOrLeaveCommunity } = useCommunityData();
+  // const isJoined = !!communityStateValue?.mySnippets?.find(
+  //   (item) => item.communityId === community.id
+  // );
 
   return (
     <Flex direction="column" width="100%" height="146px">
-      <Box height="50%" bg="blue.400" />
+      {/* <Box height="50%" bg="blue.400" />
       <Flex justify="center" bg="white" flexGrow={1}>
         <Flex width="95%" maxWidth="860px">
-          {communityData?.imageUrl ? (
+          {community?.imageUrl ? (
             <Image />
           ) : (
             <Icon
@@ -37,23 +39,23 @@ export default function Header({ communityData }: Props) {
           <Flex py="10px" px="16px">
             <Flex direction="column" mr={6}>
               <Text fontWeight={800} fontSize="16pt">
-                {communityData?.id}
+                {community?.id}
               </Text>
               <Text fontWeight={600} fontSize="10pt" color="gray.400">
-                r/{communityData?.id}
+                r/{community?.id}
               </Text>
             </Flex>
             <Button
               variant={isJoined ? "outline" : "solid"}
               height="30px"
               px={6}
-              onClick={() => onJoinOrLeaveCommunity(communityData, isJoined)}
+              onClick={() => onJoinOrLeaveCommunity(community, isJoined)}
             >
               {isJoined ? "Joined" : "Join"}
             </Button>
           </Flex>
         </Flex>
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 }
