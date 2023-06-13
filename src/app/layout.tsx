@@ -1,19 +1,19 @@
-'use client'
+"use client";
 
 import Footer from "@/components/footer";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar/Navbar";
-import { Metadata } from 'next'
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Fake Reddit App',
-  description: 'Fake reddit App',
-}
+  title: "Fake Reddit App",
+  description: "Fake reddit App",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -25,5 +25,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  )
+  );
 }

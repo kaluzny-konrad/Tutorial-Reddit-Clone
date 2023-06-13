@@ -1,4 +1,5 @@
-import { auth, firestore } from "@/firebase/clientApp";
+import { firestore } from "@/firebase/clientApp";
+import useAuthentication from "@/hooks/useAuthentication";
 import {
   Box,
   Button,
@@ -19,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
 import React, { useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
 
@@ -29,7 +29,7 @@ type Props = {
 };
 
 const CreateCommunityModal = ({ open, handleClose }: Props) => {
-  const [user] = useAuthState(auth);
+  const { user } = useAuthentication();
   const [cummunityName, setCummunityName] = useState("");
   const charsLimit = 21;
   const [charsRemaining, setCharsRemaining] = useState(charsLimit);

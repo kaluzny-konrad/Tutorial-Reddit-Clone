@@ -1,13 +1,10 @@
-'use client'
+"use client";
 
 import React from "react";
 import { FaRedditSquare } from "react-icons/fa";
 import { VscAccount } from "react-icons/vsc";
 import { IoSparkles } from "react-icons/io5";
-import { CgProfile } from "react-icons/cg";
-import { MdOutlineLogin } from "react-icons/md";
 import {
-  Button,
   Flex,
   Icon,
   Menu,
@@ -20,13 +17,20 @@ import {
 import { signOut } from "firebase/auth";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { auth } from "@/firebase/clientApp";
-import { useSetRecoilState } from "recoil";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { communityState } from "@/atoms/communityAtom";
+import useAuthentication from "@/hooks/useAuthentication";
 
 const UserMenu = () => {
-  const [user] = useAuthState(auth);
+  const { user } = useAuthentication();
   const setAuthModalState = useSetRecoilState(authModalState);
+  const resetCommunityState = useResetRecoilState(communityState);
+
+  const logOut = async () => {
+    await signOut(auth);
+    resetCommunityState();
+  };
 
   return (
     <Menu>
@@ -46,12 +50,13 @@ const UserMenu = () => {
                   mr={1}
                   color="gray.300"
                 />
-                <Flex className="userName"
-                direction="column"
-                display={{ base: 'none', lg: 'flex'}}
-                fontSize='8pt'
-                align='flex-start'
-                mr={8}
+                <Flex
+                  className="userName"
+                  direction="column"
+                  display={{ base: "none", lg: "flex" }}
+                  fontSize="8pt"
+                  align="flex-start"
+                  mr={8}
                 >
                   <Text fontWeight={700}>
                     {user?.displayName || user?.email?.split("@")[0]}
@@ -94,7 +99,7 @@ const UserMenu = () => {
                 bg: "blue.500",
                 color: "white",
               }}
-              onClick={() => signOut(auth)}
+              onClick={() => logOut()}
             >
               <Flex align="center">
                 <Text>Log Out</Text>
