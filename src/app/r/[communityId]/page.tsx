@@ -1,5 +1,6 @@
 'use client'
 
+import CreatePostLink from "@/components/Community/CreatePostLink";
 import Header from "@/components/Community/Header";
 import NotFound from "@/components/Community/NotFound";
 import getCommunityData from "@/components/Community/getCommunityData";
@@ -22,7 +23,9 @@ export default async function CommunityPage({
     <>
       <Header community={community} />
       <PageContent>
-        <>testleft</>
+        <>
+          <CreatePostLink communityId={communityId} />
+        </>
         <>testright</>
       </PageContent>
     </>
