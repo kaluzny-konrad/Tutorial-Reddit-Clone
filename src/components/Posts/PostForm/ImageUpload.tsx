@@ -27,7 +27,7 @@ export default function ImageUpload({
               
               height={"28px"}
               onClick={() => setSelectedTab(FormTabs.Post)}
-            >BackToPost</Button>
+            >Back to Post</Button>
             <Button
                 variant={"outline"}
                 height={"28px"}

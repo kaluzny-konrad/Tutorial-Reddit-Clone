@@ -1,4 +1,12 @@
-import { Flex, Icon } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  CloseButton,
+  Flex,
+  Icon,
+} from "@chakra-ui/react";
 import React from "react";
 import { BsLink45Deg, BsMic } from "react-icons/bs";
 import { BiPoll } from "react-icons/bi";
@@ -7,8 +15,22 @@ import TabItem from "./TabItem";
 import TextInputs from "./PostForm/TextInputs";
 import ImageUpload from "./PostForm/ImageUpload";
 import { Post } from "@/atoms/postsAtom";
+import { User } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { firestore, storage } from "@/firebase/clientApp";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
-type Props = {};
+type Props = {
+  user: User;
+  communityId: string;
+};
 
 // enum for titles
 export enum FormTabs {
@@ -47,8 +69,9 @@ export type TabItem = {
   icon: typeof Icon.arguments;
 };
 
-export default function NewPostForm({}: Props) {
-  const [selectedTab, setSelectedTab] = React.useState(formTabs[1].title);
+export default function NewPostForm({ user, communityId }: Props) {
+  const router = useRouter();
+  const [selectedTab, setSelectedTab] = React.useState(formTabs[0].title);
   const [textInputs, setTextInputs] = React.useState({
     title: "",
     body: "",
@@ -56,9 +79,40 @@ export default function NewPostForm({}: Props) {
 
   const [selectedFile, setSelectedFile] = React.useState<string>();
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
   const handleCreatePost = async () => {
-    // const newPost: Post = {};
+    const newPost: Post = {
+      communityId: communityId,
+      creatorId: user.uid,
+      creatorDisplayName:
+        user.displayName || user.email!.split("@")[0] || "Anonymous",
+      title: textInputs.title,
+      body: textInputs.body,
+      numberOfComments: 0,
+      voteStatus: 0,
+      createdAt: serverTimestamp() as Timestamp,
+    };
+
+    setLoading(true);
+    try {
+      const postCollection = collection(firestore, "posts");
+      const postDocRef = await addDoc(postCollection, newPost);
+
+      if (selectedFile) {
+        const imageRef = ref(storage, `posts/${postDocRef.id}/image`);
+        await uploadString(imageRef, selectedFile, "data_url");
+
+        const downloadUrl = await getDownloadURL(imageRef);
+        await updateDoc(postDocRef, { imageUrl: downloadUrl });
+      }
+    } catch (error: any) {
+      console.log("handleCreatePost error", error);
+      setError(true);
+    }
+    setLoading(false);
+
+    router.push(`/r/${communityId}`);
   };
 
   const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,6 +165,12 @@ export default function NewPostForm({}: Props) {
           />
         )}
       </Flex>
+      {error && (
+        <Alert status="error" borderRadius={0}>
+          <AlertIcon />
+          <AlertTitle mr={2}>Error creating post</AlertTitle>
+        </Alert>
+      )}
     </Flex>
   );
 }
