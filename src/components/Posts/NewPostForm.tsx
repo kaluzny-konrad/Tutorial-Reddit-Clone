@@ -86,7 +86,7 @@ export default function NewPostForm({ user, communityId }: Props) {
       communityId: communityId,
       creatorId: user.uid,
       creatorDisplayName:
-        user.displayName || user.email!.split("@")[0] || "Anonymous",
+        user.email!.split("@")[0] || "Anonymous",
       title: textInputs.title,
       body: textInputs.body,
       numberOfComments: 0,
