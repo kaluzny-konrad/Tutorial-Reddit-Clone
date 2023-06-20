@@ -1,3 +1,5 @@
+'use client'
+
 import CreateCommunityModal from "@/components/Modal/CreateCommunity/CreateCommunityModal";
 import { Flex, Icon, MenuItem } from "@chakra-ui/react";
 import React, { useState } from "react";

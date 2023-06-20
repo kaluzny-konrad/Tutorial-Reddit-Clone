@@ -1,3 +1,5 @@
+"use client";
+
 import { authModalState } from "@/atoms/authModalAtom";
 import {
   Flex,
@@ -9,27 +11,29 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import AuthInputs from "./AuthInputs";
 import OAuthButtons from "./OAuthButtons";
 import ResetPassword from "./ResetPassword";
-import useAuthentication from "@/hooks/useAuthentication";
+
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
 
 const AuthModal = () => {
   const [modalState, setModalState] = useRecoilState(authModalState);
-  const { user } = useAuthentication();
+  const [user] = useAuthState(auth);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setModalState((prev: any) => ({
       ...prev,
       open: false,
     }));
-  };
+  }, [setModalState]);
 
   useEffect(() => {
     if (user) handleClose();
-  }, [user]);
+  }, [user, handleClose]);
 
   return (
     <>

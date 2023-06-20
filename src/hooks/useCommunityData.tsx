@@ -1,3 +1,5 @@
+"use client";
+
 import { authModalState } from "@/atoms/authModalAtom";
 import {
   Community,
@@ -15,7 +17,9 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import useAuthentication from "./useAuthentication";
+
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
 
 const useCommunityData = () => {
   const [communityStateValue, setCommunityStateValue] =
@@ -23,31 +27,32 @@ const useCommunityData = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const setAuthModalState = useSetRecoilState(authModalState);
-  const { user } = useAuthentication();
+
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     if (!user || !!communityStateValue.mySnippets.length) return;
 
+    const getSnippets = async () => {
+      setLoading(true);
+
+      try {
+        const snippets = await getMySnippets(user?.uid!);
+        setCommunityStateValue((prev) => ({
+          ...prev,
+          mySnippets: snippets as CommunitySnippet[],
+          initSnippetsFetched: true,
+        }));
+      } catch (error: any) {
+        console.log("getSnippets", error);
+        setError(error.message);
+      }
+
+      setLoading(false);
+    };
+
     getSnippets();
-  }, [user]);
-
-  const getSnippets = async () => {
-    setLoading(true);
-
-    try {
-      const snippets = await getMySnippets(user?.uid!);
-      setCommunityStateValue((prev) => ({
-        ...prev,
-        mySnippets: snippets as CommunitySnippet[],
-        initSnippetsFetched: true,
-      }));
-    } catch (error: any) {
-      console.log("getSnippets", error);
-      setError(error.message);
-    }
-
-    setLoading(false);
-  };
+  }, [user, communityStateValue.mySnippets.length, setCommunityStateValue]);
 
   const getMySnippets = async (userId: string) => {
     const snippetsRef = collection(

@@ -3,10 +3,12 @@ import AuthButtons from "./AuthButtons";
 import AuthModal from "@/components/Modal/Auth/AuthModal";
 import Icons from "./Icons";
 import UserMenu from "./UserMenu";
-import useAuthentication from "@/hooks/useAuthentication";
+
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
 
 export default function RightContent() {
-  const { user } = useAuthentication();
+  const [user] = useAuthState(auth);
 
   return (
     <>

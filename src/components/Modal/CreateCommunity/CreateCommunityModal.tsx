@@ -1,5 +1,4 @@
 import { firestore } from "@/firebase/clientApp";
-import useAuthentication from "@/hooks/useAuthentication";
 import {
   Box,
   Button,
@@ -23,13 +22,16 @@ import React, { useState } from "react";
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
+
 type Props = {
   open: boolean;
   handleClose: () => void;
 };
 
 const CreateCommunityModal = ({ open, handleClose }: Props) => {
-  const { user } = useAuthentication();
+  const [user] = useAuthState(auth);
   const [cummunityName, setCummunityName] = useState("");
   const charsLimit = 21;
   const [charsRemaining, setCharsRemaining] = useState(charsLimit);

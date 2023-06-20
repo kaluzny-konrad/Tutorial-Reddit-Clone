@@ -1,3 +1,5 @@
+"use client";
+
 import { postState } from "@/atoms/postsAtom";
 import { useRecoilState } from "recoil";
 

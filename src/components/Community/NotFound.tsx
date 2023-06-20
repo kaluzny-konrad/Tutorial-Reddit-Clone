@@ -1,4 +1,6 @@
-import { Button, Flex } from "@chakra-ui/react";
+"use client";
+
+import { Button, Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
@@ -10,7 +12,7 @@ export default function NotFound() {
       alignItems="center"
       minHeight="60vh"
     >
-      Sorry, that community doesn't exist or has been banned.
+      <Text>Sorry, that community doesn&apos;t exist or has been banned.</Text>
       <Link href="/">
         <Button mt={4}>GO HOME</Button>
       </Link>

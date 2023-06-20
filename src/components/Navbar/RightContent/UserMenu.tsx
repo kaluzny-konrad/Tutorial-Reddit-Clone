@@ -16,14 +16,15 @@ import {
 } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { auth } from "@/firebase/clientApp";
 import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
 import { communityState } from "@/atoms/communityAtom";
-import useAuthentication from "@/hooks/useAuthentication";
+
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
 
 const UserMenu = () => {
-  const { user } = useAuthentication();
+  const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
   const resetCommunityState = useResetRecoilState(communityState);
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { Community } from "@/atoms/communityAtom";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
@@ -21,7 +23,8 @@ export default function Header({ community }: Props) {
       <Flex justify="center" bg="white" flexGrow={1}>
         <Flex width="95%" maxWidth="860px">
           {community?.imageUrl ? (
-            <Image />
+            // <Image />
+            <></>
           ) : (
             <Icon
               as={FaReddit}

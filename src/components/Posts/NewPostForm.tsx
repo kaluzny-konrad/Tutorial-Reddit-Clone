@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Alert,
   AlertDescription,
@@ -15,7 +17,6 @@ import TabItem from "./TabItem";
 import TextInputs from "./PostForm/TextInputs";
 import ImageUpload from "./PostForm/ImageUpload";
 import { Post } from "@/atoms/postsAtom";
-import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import {
   Timestamp,
@@ -27,8 +28,10 @@ import {
 import { firestore, storage } from "@/firebase/clientApp";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
+
 type Props = {
-  user: User;
   communityId: string;
 };
 
@@ -69,7 +72,9 @@ export type TabItem = {
   icon: typeof Icon.arguments;
 };
 
-export default function NewPostForm({ user, communityId }: Props) {
+export default function NewPostForm({ communityId }: Props) {
+  const [user] = useAuthState(auth);
+
   const router = useRouter();
   const [selectedTab, setSelectedTab] = React.useState(formTabs[0].title);
   const [textInputs, setTextInputs] = React.useState({
@@ -82,11 +87,12 @@ export default function NewPostForm({ user, communityId }: Props) {
   const [error, setError] = React.useState(false);
 
   const handleCreatePost = async () => {
+    if (!user) return;
+
     const newPost: Post = {
       communityId: communityId,
       creatorId: user.uid,
-      creatorDisplayName:
-        user.email!.split("@")[0] || "Anonymous",
+      creatorDisplayName: user.email!.split("@")[0] || "Anonymous",
       title: textInputs.title,
       body: textInputs.body,
       numberOfComments: 0,
@@ -136,41 +142,45 @@ export default function NewPostForm({ user, communityId }: Props) {
   };
 
   return (
-    <Flex direction={"column"} bg={"white"} borderRadius={4} mt={2}>
-      <Flex width={"100%"}>
-        {formTabs.map((tab) => (
-          <TabItem
-            key={tab.title}
-            item={tab}
-            selected={tab.title === selectedTab}
-            setSelectedTab={setSelectedTab}
-          />
-        ))}
-      </Flex>
-      <Flex padding={4}>
-        {selectedTab === FormTabs.Post && (
-          <TextInputs
-            textInputs={textInputs}
-            handleCreatePost={handleCreatePost}
-            onChange={onTextChange}
-            loading={loading}
-          />
-        )}
-        {selectedTab === FormTabs.ImagesAndVideo && (
-          <ImageUpload
-            selectedFile={selectedFile}
-            onSelectImage={onSelectImage}
-            setSelectedTab={setSelectedTab}
-            setSelectedFile={setSelectedFile}
-          />
-        )}
-      </Flex>
-      {error && (
-        <Alert status="error" borderRadius={0}>
-          <AlertIcon />
-          <AlertTitle mr={2}>Error creating post</AlertTitle>
-        </Alert>
+    <>
+      {user && (
+        <Flex direction={"column"} bg={"white"} borderRadius={4} mt={2}>
+          <Flex width={"100%"}>
+            {formTabs.map((tab) => (
+              <TabItem
+                key={tab.title}
+                item={tab}
+                selected={tab.title === selectedTab}
+                setSelectedTab={setSelectedTab}
+              />
+            ))}
+          </Flex>
+          <Flex padding={4}>
+            {selectedTab === FormTabs.Post && (
+              <TextInputs
+                textInputs={textInputs}
+                handleCreatePost={handleCreatePost}
+                onChange={onTextChange}
+                loading={loading}
+              />
+            )}
+            {selectedTab === FormTabs.ImagesAndVideo && (
+              <ImageUpload
+                selectedFile={selectedFile}
+                onSelectImage={onSelectImage}
+                setSelectedTab={setSelectedTab}
+                setSelectedFile={setSelectedFile}
+              />
+            )}
+          </Flex>
+          {error && (
+            <Alert status="error" borderRadius={0}>
+              <AlertIcon />
+              <AlertTitle mr={2}>Error creating post</AlertTitle>
+            </Alert>
+          )}
+        </Flex>
       )}
-    </Flex>
+    </>
   );
 }

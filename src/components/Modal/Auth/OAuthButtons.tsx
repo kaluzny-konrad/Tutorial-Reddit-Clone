@@ -14,7 +14,7 @@ const OAuthButtons = () => {
         isLoading={loading}
         onClick={() => signInWithGoogle()}
       >
-        <Image src="/images/googlelogo.png" height="20px" mr={2} />
+        <Image src="/images/googlelogo.png" height="20px" mr={2} alt="Google Logo" />
         Continue with Google
       </Button>
       {error && <Text>{error.message}</Text>}

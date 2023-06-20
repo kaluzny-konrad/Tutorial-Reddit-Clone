@@ -1,7 +1,6 @@
 "use client";
 
 import { authModalState } from "@/atoms/authModalAtom";
-import useAuthentication from "@/hooks/useAuthentication";
 import { Flex, Icon, Input } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -10,13 +9,17 @@ import { FaReddit } from "react-icons/fa";
 import { IoImageOutline } from "react-icons/io5";
 import { useSetRecoilState } from "recoil";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
+
 type Props = {
   communityId: string;
 };
 
 export default function CreatePostLink({ communityId }: Props) {
   const router = useRouter();
-  const { user } = useAuthentication();
+  const [user] = useAuthState(auth);
+
   const setAuthModalState = useSetRecoilState(authModalState);
 
   const onClick = () => {

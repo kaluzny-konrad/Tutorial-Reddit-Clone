@@ -1,15 +1,19 @@
+'use client'
+
 import { Flex, Image } from "@chakra-ui/react";
 import React from "react";
 import SearchInput from "./SearchInput";
 import RightContent from "./RightContent/RightContent";
 import Directory from "./Directory/Directory";
-import useAuthentication from "@/hooks/useAuthentication";
+
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
 
 const Navbar = () => {
-  const { user } = useAuthentication();
+  const [user] = useAuthState(auth);
 
   return (
-    <nav>
+    <>
       <Flex
         bg="white"
         height="44px"
@@ -23,18 +27,19 @@ const Navbar = () => {
           mr={{ base: 0, md: 2 }}
           className="logo"
         >
-          <Image src="/images/redditFace.svg" height="30px" />
+          <Image src="/images/redditFace.svg" height="30px" alt="reddit face" />
           <Image
             src="/images/redditText.svg"
             height="46px"
             display={{ base: "none", md: "unset" }}
+            alt="reddit text"
           />
         </Flex>
         {user && <Directory />}
         <SearchInput />
         <RightContent />
       </Flex>
-    </nav>
+    </>
   );
 };
 

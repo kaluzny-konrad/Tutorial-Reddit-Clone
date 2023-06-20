@@ -1,8 +1,10 @@
-'use client'
+"use client";
 
 import { Post } from "@/atoms/postsAtom";
-import { Flex, Icon, Image, Stack, Text } from "@chakra-ui/react";
+import { Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import moment from "moment";
+import Image from "next/image";
+// import probe from "probe-image-size";
 import React from "react";
 
 import { AiOutlineDelete } from "react-icons/ai";
@@ -34,6 +36,7 @@ export default function PostItem({
   onDeletePost,
   onSelectPost,
 }: Props) {
+
   return (
     <Flex
       border={"1px solid"}
@@ -92,8 +95,19 @@ export default function PostItem({
           </Text>
           <Text fontSize={"10pt"}>{post.body}</Text>
           {post.imageUrl && (
-            <Flex align={"center"} justify={"center"} p={2}>
-              <Image src={post.imageUrl} maxHeight={"460px"} alt="Post image" />
+            <Flex
+              align={"center"}
+              justify={"center"}
+              p={2}
+              className="h-96 w-60"
+            >
+              <Image
+                src={post.imageUrl}
+                alt="Post image"
+                width={650}
+                height={460}
+              />
+              {/* <Image src={post.imageUrl} maxHeight={"460px"} alt="Post image" /> */}
             </Flex>
           )}
         </Stack>

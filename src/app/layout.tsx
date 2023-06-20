@@ -1,5 +1,3 @@
-"use client";
-
 import Footer from "@/components/footer";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar/Navbar";

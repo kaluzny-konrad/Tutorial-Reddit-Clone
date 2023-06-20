@@ -1,3 +1,5 @@
+"use client";
+
 import { Community } from "@/atoms/communityAtom";
 import { Post } from "@/atoms/postsAtom";
 import { firestore } from "@/firebase/clientApp";
@@ -8,13 +10,17 @@ import PostItem from "./PostItem";
 import { Stack } from "@chakra-ui/react";
 import PostLoader from "./PostLoader";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
+
 type Props = {
   communityData: Community;
-  userId?: string;
 };
 
-export default function Posts({ communityData, userId }: Props) {
-  const [loading, setLoading] = useState(false);
+export default function Posts({ communityData }: Props) {
+  const [user] = useAuthState(auth);
+
+  const [loading, setLoading] = useState(true);
   const {
     postStateValue,
     setPostStateValue,
@@ -23,31 +29,31 @@ export default function Posts({ communityData, userId }: Props) {
     onSelectPost,
   } = usePosts();
 
-  const getPosts = async () => {
-    setLoading(true);
-    try {
-      const postsCollection = collection(firestore, "posts");
-      const filter = where("communityId", "==", communityData.id);
-      const order = orderBy("createdAt", "desc");
-      const postsQuery = query(postsCollection, filter, order);
-      const postDocs = await getDocs(postsQuery);
-      const posts = postDocs.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPostStateValue((prev) => ({
-        ...prev,
-        posts: posts as Post[],
-      }));
-    } catch (error: any) {
-      console.log("error getting posts", error.message);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const getPosts = async () => {
+      setLoading(true);
+      try {
+        const postsCollection = collection(firestore, "posts");
+        const filter = where("communityId", "==", communityData.id);
+        const order = orderBy("createdAt", "desc");
+        const postsQuery = query(postsCollection, filter, order);
+        const postDocs = await getDocs(postsQuery);
+        const posts = postDocs.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPostStateValue((prev) => ({
+          ...prev,
+          posts: posts as Post[],
+        }));
+      } catch (error: any) {
+        console.log("error getting posts", error.message);
+      }
+      setLoading(false);
+    };
+
     getPosts();
-  }, []);
+  }, [communityData.id, setPostStateValue]);
 
   return (
     <>
@@ -59,7 +65,7 @@ export default function Posts({ communityData, userId }: Props) {
             <PostItem
               key={post.id}
               post={post}
-              userIsCreator={userId === post.creatorId}
+              userIsCreator={user?.uid === post.creatorId}
               userVoteValue={undefined}
               onVote={onVote}
               onDeletePost={onDeletePost}

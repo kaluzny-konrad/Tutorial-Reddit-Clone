@@ -1,9 +1,10 @@
-import useAuthentication from "@/hooks/useAuthentication";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Flex, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
 
 export default function SearchInput() {
-  const { user } = useAuthentication();
+  const [user] = useAuthState(auth);
 
   return (
     <Flex

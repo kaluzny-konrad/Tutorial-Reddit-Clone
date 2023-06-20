@@ -6,6 +6,7 @@ export default async function getCommunityData(
   communityId: string
 ): Promise<Community | null> {
   try {
+    console.log("getCommunityData");
     const communityDocRef = doc(firestore, "communities", communityId);
     const communityDoc = await getDoc(communityDocRef);
     if (!communityDoc.exists()) return null;
