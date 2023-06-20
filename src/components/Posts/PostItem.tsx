@@ -5,7 +5,7 @@ import { Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import moment from "moment";
 import Image from "next/image";
 // import probe from "probe-image-size";
-import React from "react";
+import React, { Suspense } from "react";
 
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
@@ -18,6 +18,7 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
+import LazyImage from "../Images/LazyImage";
 
 type Props = {
   post: Post;
@@ -36,7 +37,6 @@ export default function PostItem({
   onDeletePost,
   onSelectPost,
 }: Props) {
-
   return (
     <Flex
       border={"1px solid"}
@@ -101,13 +101,9 @@ export default function PostItem({
               p={2}
               className="h-96 w-60"
             >
-              <Image
-                src={post.imageUrl}
-                alt="Post image"
-                width={650}
-                height={460}
-              />
-              {/* <Image src={post.imageUrl} maxHeight={"460px"} alt="Post image" /> */}
+              <Suspense>
+                <LazyImage src={post.imageUrl} alt={post.title} />
+              </Suspense>
             </Flex>
           )}
         </Stack>
