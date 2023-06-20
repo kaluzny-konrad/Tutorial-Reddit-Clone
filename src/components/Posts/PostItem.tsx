@@ -1,11 +1,8 @@
 "use client";
 
 import { Post } from "@/atoms/postsAtom";
-import { Flex, Icon, Stack, Text } from "@chakra-ui/react";
+import { Flex, Icon, Image, Stack, Text } from "@chakra-ui/react";
 import moment from "moment";
-import Image from "next/image";
-// import probe from "probe-image-size";
-import React, { Suspense } from "react";
 
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
@@ -18,7 +15,6 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
-import LazyImage from "../Images/LazyImage";
 
 type Props = {
   post: Post;
@@ -101,9 +97,7 @@ export default function PostItem({
               p={2}
               className="h-96 w-60"
             >
-              <Suspense>
-                <LazyImage src={post.imageUrl} alt={post.title} />
-              </Suspense>
+              <Image src={post.imageUrl} maxHeight={"460px"} alt={post.title} />
             </Flex>
           )}
         </Stack>
