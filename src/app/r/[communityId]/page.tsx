@@ -1,3 +1,4 @@
+import About from "@/components/Community/About";
 import CreatePostLink from "@/components/Community/CreatePostLink";
 import Header from "@/components/Community/Header";
 import NotFound from "@/components/Community/NotFound";
@@ -25,7 +26,9 @@ export default async function CommunityPage({
           <CreatePostLink communityId={communityId} />
           <Posts communityData={community} />
         </>
-        <>testright</>
+        <>
+          <About communityData={community} />
+        </>
       </PageContent>
     </>
   );

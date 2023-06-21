@@ -15,3 +15,4 @@ Reddit Clone App
 15.06: 6:15
 17.06: 6:40
 20.06: 6:43
+21.06: 6:56, 7:11 (ended by bad video quality)

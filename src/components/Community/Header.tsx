@@ -1,21 +1,32 @@
-'use client'
+"use client";
 
-import { Community } from "@/atoms/communityAtom";
+import { Community, communityState } from "@/atoms/communityAtom";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaReddit } from "react-icons/fa";
 import { Image } from "@chakra-ui/react";
+import { useEffect } from "react";
 import useCommunityData from "@/hooks/useCommunityData";
+import { useSetRecoilState } from "recoil";
 
 type Props = {
   community: Community;
 };
 
 export default function Header({ community }: Props) {
-  const { communityStateValue, onJoinLeaveCommunity, loading } = useCommunityData();
+  const { communityStateValue, onJoinLeaveCommunity, loading } =
+    useCommunityData();
   const isJoined = !!communityStateValue.mySnippets.find(
     (item) => item.communityId === community.id
   );
+
+  const setCommunityStateValue = useSetRecoilState(communityState);
+  useEffect(() => {
+    setCommunityStateValue((prev) => ({
+      ...prev,
+      currentCommunity: community,
+    }));
+  }, []);
 
   return (
     <Flex direction="column" width="100%" height="146px">
